@@ -1,64 +1,71 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
 :root {
-    --gray: #34495e;
-    --darkgray: #2c3e50;
-  }
+  --gray: #34495e;
+  --darkgray: #2c3e50;
+}
+
 body {
-    border-color: linear-gradient(180deg, rgba(204,43,94,1) 0%, rgba(117,58,136,1) 100%);
-    color: white;
-    font-family: "Open Sans", sans-serif;
-    text-align: center;
-    background: linear-gradient(180deg, rgba(204,43,94,1) 0%, rgba(117,58,136,1) 100%);
+  border-color: linear-gradient(180deg, rgba(204, 43, 94, 1) 0%, rgba(117, 58, 136, 1) 100%);
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(204, 43, 94, 1) 0%, rgba(117, 58, 136, 1) 100%);
 }
+
 h1 {
-    font-size: 1.5em;
-    font-weight: 300;
-    margin: 0;
-    padding-top: 10px;
-    padding-bottom: -10px;
+  font-size: 1.5em;
+  font-weight: 300;
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: -10px;
 }
+
 select {
-    border-color: linear-gradient(180deg, rgba(204,43,94,1) 0%, rgba(117,58,136,1) 100%);
-    /* Reset Select */
-    appearance: none;
-    outline: 0;
-    border: 0;
-    box-shadow: none;
-    /* Personalize */
-    flex: 1;
-    padding: 0 1em;
-    color: #fff;
-    background-color: var(--darkgray);
-    background-image: none;
-    cursor: pointer;
-  }
-  /* Remove IE arrow */
-  select::-ms-expand {
-    display: none;
-  }
-  /* Custom Select wrapper */
-  .select {
-    margin: 0 auto;
-    position: relative;
-    display: flex;
-    width: 12em;
-    height: 3em;
-    border-radius: .25em;
-    overflow: hidden;
-  }
-  /* Arrow */
-  .select::after {
-    content: '\25BC';
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 1em;
-    background-color: #34495e;
-    transition: .25s all ease;
-    pointer-events: none;
-  }
-  /* Transition */
-  .select:hover::after {
-    color: #ee0aa9;
-  }
-  
+  border-color: linear-gradient(180deg, rgba(204, 43, 94, 1) 0%, rgba(117, 58, 136, 1) 100%);
+  /* Reset Select */
+  appearance: none;
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  /* Personalize */
+  flex: 1;
+  padding: 0 1em;
+  color: #fff;
+  background-color: var(--darkgray);
+  background-image: none;
+  cursor: pointer;
+}
+
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+
+/* Custom Select wrapper */
+.select {
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  width: 12em;
+  height: 3em;
+  border-radius: .25em;
+  overflow: hidden;
+}
+
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  background-color: #34495e;
+  transition: .25s all ease;
+  pointer-events: none;
+}
+
+/* Transition */
+.select:hover::after {
+  color: #ee0aa9;
+}

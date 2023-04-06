@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "SpanishQuick",
-  "version": "1.1",
+  "version": "1.2",
 
   "description": "Quickly translate spanish to english using multiple sources",
 
@@ -24,11 +24,9 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "content_scripts": [
-    {
-      "matches": ["*://*/*"],
-      "js": ["spanishquick.js"]
-    }
-  ]
+  "content_scripts": [{
+    "matches": ["*://*/*"],
+    "js": ["spanishquick.js"]
+  }]
 
 }
