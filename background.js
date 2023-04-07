@@ -9,11 +9,11 @@ browser.contextMenus.create({
   contexts: ["all"]
 });
 
-browser.contextMenus.onClicked.addListener((info) => {
-  browser.tabs.query({
-    active: true,
-    currentWindow: true
-  }).then((tabs) => {
+browser.tabs.query({
+  active: true,
+  currentWindow: true
+}).then((tabs) => {
+  browser.contextMenus.onClicked.addListener((info) => {
     browser.tabs.sendMessage(tabs[0].id, info.menuItemId)
   })
 })

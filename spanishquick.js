@@ -1,3 +1,5 @@
+const WHITELIST = ["garbanzo"]
+
 function showMeaning(event, data) {
     var info = getSelectionInfo(event);
     if (!info) {
@@ -178,8 +180,12 @@ function solve(text, val, msg) {
         console.error(error);
     }
 }
+
+if (WHITELIST.some(substring=>document.URL.includes(substring))) {
+    document.styleSheets[0].insertRule("* { user-select:text !important }", 1);
+}
+
 browser.runtime.onMessage.addListener((msg) => {
-    //console.log(msg)
     const text = window.getSelection().toString();
     browser.storage.sync.get("state").then((val) => {
         solve(text, val, msg)
