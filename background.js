@@ -8,12 +8,11 @@ browser.contextMenus.create({
   title: "English to Spanish",
   contexts: ["all"]
 });
-
-browser.tabs.query({
-  active: true,
-  currentWindow: true
-}).then((tabs) => {
-  browser.contextMenus.onClicked.addListener((info) => {
-    browser.tabs.sendMessage(tabs[0].id, info.menuItemId)
+browser.contextMenus.onClicked.addListener((info) => {
+  browser.tabs.query({
+    active: true,
+    currentWindow: true
+  }).then((tabs) => {
+      browser.tabs.sendMessage(tabs[0].id, info.menuItemId)
   })
 })

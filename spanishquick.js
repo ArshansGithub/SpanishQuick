@@ -1,4 +1,4 @@
-const WHITELIST = ["garbanzo"]
+const WHITELIST = ["garbanzo"];
 
 function showMeaning(event, data) {
     var info = getSelectionInfo(event);
@@ -43,7 +43,7 @@ function createDiv(info, data) {
     hostDiv.className = "dictionaryDiv";
     hostDiv.style.left = info.left - 10 + "px";
     hostDiv.style.position = "absolute";
-    hostDiv.style.zIndex = "1000000"
+    hostDiv.style.zIndex = "1000000";
     hostDiv.attachShadow({
         mode: 'open'
     });
@@ -60,17 +60,18 @@ function createDiv(info, data) {
     var contentContainer = document.createElement("div");
     contentContainer.className = "mwe-popups-container";
     popupDiv.appendChild(contentContainer);
-    var heightBefore = popupDiv.clientHeight;
     var content = document.createElement("div");
     content.className = "mwe-popups-extract";
     content.style = "line-height: 1.4; margin-top: 0px; margin-bottom: 11px; max-height: none";
     contentContainer.appendChild(content);
     var heading = document.createElement("h3");
     heading.style = "margin-block-end: 0px; display:inline-block;";
-    heading.textContent = data['word'];
+    heading.textContent = data.word;
     var meaning = document.createElement("p");
     meaning.style = "margin-top: 10px";
-    meaning.textContent = data['trans'];
+    let thingy = data.trans;
+    thingy = thingy.replaceAll("<br>", '');
+    meaning.textContent = thingy;
     content.appendChild(heading);
     content.appendChild(meaning);
     document.body.appendChild(hostDiv);
@@ -108,59 +109,63 @@ async function getTranslation(text, type, mode) {
     const requestOptions = {
         method: "GET",
         mode: "no-cors"
+    };
+    text.trim();
+    text = text.replace(/\n/g, " ");
+    text = encodeURIComponent(text);
+    if (text.endsWith("%20")) {
+        text = text.slice(0, -3);
     }
-
-    text = text.trim()
-    text = encodeURIComponent(text)
     const url2 = `https://www.spanishdict.com/translate/${text}`;
-    const req2 = await fetch(url2, requestOptions)
-    const htmlStuff = await req2.text()
-    const splitted = htmlStuff.split("\n")
+    const req2 = await fetch(url2, requestOptions);
+    const htmlStuff = await req2.text();
+    const splitted = htmlStuff.split("\n");
     for (var i = 0; i < splitted.length; i++) {
         if (splitted[i].includes("global.SD_MT_KEY")) {
-            const key = splitted[i].split("'")[1]
+            const key = splitted[i].split("'")[1];
             if (key != '') {
+                const url3 = `https://traductor1.spanishdict.com/machine-translation/${type}?langFrom=${mode}&query=${text}&key=${key}`;
                 const res = await fetch(
-                    `https://traductor1.spanishdict.com/machine-translation/${type}?langFrom=${mode}&query=${text}&key=${key}`,
-                    requestOptions)
+                    url3,
+                    requestOptions);
                 if (res.status == 200) {
-                    const jsonified = await res.json()
-                    return jsonified['data']['translation']
+                    const jsonified = await res.json();
+                    return jsonified['data']['translation'];
                 } else {
-                    /*const jsonified = await res.json()
-                    console.log(jsonified)*/
-                    return "An error has occured :("
+                    const jsonified = await res.json();
+                    console.log(jsonified);
+                    return "An error has occured :(";
                 }
             } else {
-                const url = `https://examples1.spanishdict.com/explore?lang=${mode}&q=${text}&numExplorationSentences=100`
-                const req = await fetch(url, requestOptions)
+                const url = `https://examples1.spanishdict.com/explore?lang=${mode}&q=${text}&numExplorationSentences=100`;
+                const req = await fetch(url, requestOptions);
                 if (req.status == 200) {
-                    const jsonified = await req.json()
+                    const jsonified = await req.json();
                     let possibleTranslations = "";
                     if (jsonified['data']['translations'].length == 0) {
                         for (var htmlshit = 0; htmlshit < splitted.length; htmlshit++) {
                             if (splitted[htmlshit].includes('class="tds4TDh9">')) {
-                                return splitted[htmlshit].split('class="tds4TDh9">')[1].split("<")[0]
+                                return splitted[htmlshit].split('class="tds4TDh9">')[1].split("<")[0];
                             }
                         }
                     } else {
                         for (var e = 0; e < jsonified['data']['translations'].length; e++) {
-                            let lower = jsonified['data']['translations'][e]['translation']
-                            possibleTranslations += lower.charAt(0).toUpperCase() + lower.slice(1) + ", "
+                            let lower = jsonified['data']['translations'][e]['translation'];
+                            possibleTranslations += lower.charAt(0).toUpperCase() + lower.slice(1) + ", ";
                         }
-                        const trimmed = possibleTranslations.trim()
-                        const finished = trimmed.slice(0, -1)
+                        const trimmed = possibleTranslations.trim();
+                        const finished = trimmed.slice(0, -1);
 
-                        return finished
+                        return finished;
                     }
 
                 } else {
-                    return "Oopsies! Something went wrong :("
+                    return "Oopsies! Something went wrong :(";
                 }
             }
         }
     }
-};
+}
 
 function solve(text, val, msg) {
     try {
@@ -172,7 +177,7 @@ function solve(text, val, msg) {
                     "trans": result
                 });
             }
-        )
+        );
     } catch (error) {
         if (error.name == 'NetworkError') {
             solve(text, val, msg)
@@ -188,7 +193,7 @@ if (WHITELIST.some(substring=>document.URL.includes(substring))) {
 browser.runtime.onMessage.addListener((msg) => {
     const text = window.getSelection().toString();
     browser.storage.sync.get("state").then((val) => {
-        solve(text, val, msg)
+        solve(text, val, msg);
     });
 });
 
