@@ -160,6 +160,8 @@ async function getTranslation(text, type, mode) {
                     }
 
                 } else {
+                    const jsonified = await req.json();
+                    console.log(jsonified);
                     return "Oopsies! Something went wrong :(";
                 }
             }
@@ -171,7 +173,6 @@ function solve(text, val, msg) {
     try {
         getTranslation(text, val.state, msg).then(
             (result) => {
-                //console.log(result)
                 return showMeaning(text, {
                     "word": text,
                     "trans": result

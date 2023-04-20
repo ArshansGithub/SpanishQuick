@@ -10,6 +10,5 @@ document.addEventListener("DOMContentLoaded", function () {
     browser.storage.sync.set({
       state: selectedOption
     });
-    //console.log("Changed to " + selectedOption)
   });
 });
